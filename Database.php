@@ -2,7 +2,6 @@
 
 namespace DevTest;
 
-use Exception;
 use mysqli;
 
 class Database implements DatabaseInterface
@@ -16,11 +15,15 @@ class Database implements DatabaseInterface
 
     public function buildQuery(string $query, array $args = []): string
     {
-        throw new Exception();
+        $blockProcessor = new ConditionalBlockProcessor();
+        $query = $blockProcessor->processConditionalBlocks($query, $args);
+
+        $placeholderReplacer = new PlaceholderReplacementServices($this->mysqli);
+        return $placeholderReplacer->replacePlaceholders($query, $args);
     }
 
     public function skip()
     {
-        throw new Exception();
+        return ConditionalBlockProcessor::SKIP_BLOCK;
     }
 }

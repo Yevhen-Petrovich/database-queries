@@ -50,6 +50,10 @@ class DatabaseTest
             'SELECT name FROM users WHERE `user_id` IN (1, 2, 3) AND block = 1',
         ];
 
+//        echo "<pre>";
+//        print_r($results);
+//        echo "</pre>";
+
         if ($results !== $correct) {
             throw new Exception('Failure.');
         }
